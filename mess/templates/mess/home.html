@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>We-Share</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shadows+Into+Light+Two" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+    <link rel='stylesheet' href='/static/css/home.css' type="text/css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <b><a class="navbar-brand logo-title" href="/home/">We-share</a></b>
+        </div>
+        <ul class="nav navbar-nav">
+          <li data-toggle="modal" ><a class="glyphicon glyphicon-piggy-bank" href="#">-Invest</a></li>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li ><a class="subtitle-style" href="/invoice/">Mess bill</a></li>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav">
+      <li ><a class="subtitle-style" href="/invoice/">My wallet</a></li>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav">
+    <form class="navbar-form navbar-left" role="search">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </ul>
+  <ul class="nav navbar-nav navbar-right ">
+    <li >
+    <a class="subtitle-style" href="#"><span class="glyphicon glyphicon-cog"></span>{{user}}</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a class="subtitle-style" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="group-button" >
+  <h4 class="button-click"> Create your Group. Afterol its your Money And its your relationship..!!&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+  <button class="button-design button-hower" type="button" data-toggle="modal" data-target="#myModal">+ Group</button>
+</div>
+<div class="groups-box">
+  <b><p class="box-title">Existing Groups</p></b>
+  {% for i in group_details %}
+    
+    <div class="groupname-box box-hovering"><a href={% url 'group_report' i.id  %}>
+      <h2 class="boxname-style">{{i.group_name}}</h2>
+      <h4 class="boxsubname">*{{i.description}}</h4>
+      </a>
+    </div>
+  
+  {% endfor %}
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-design">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label  ="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title title-style" id="myModalLabel">We Share</h4>
+      </div>
+      <div class="modal-body">
+        
+        <form class="form-horizontal" action="/groupcreation/" method="POST" >
+          {% csrf_token %}
+          <div class="form-group width-form">
+            <label for="inputEmail3" class="col-sm-2 control-label subname-style">Name:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="grname" id="inputEmail3" placeholder="Group Name">
+            </div>
+          </div>
+          <p class="subname-style">Members:</p>
+          <div class="selextbox-style">
+            <select class="style-drop selectpicker" name="members" multiple="multiple">
+              {% for i in all_users %}
+                <option value="{{i.username}}" name="members">{{i.username}}</option>
+              {% endfor %}
+            </select>
+            <div>
+              </br>
+              <p class="subname-style subame-pad">Description:</p>
+              <textarea class="textarea-style" rows="0" placeholder="Enter your description here..." name="description">
+              </textarea>
+            </div>
+            <div>
+              </br>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default subname-style" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary subname-style" onclick="myFunction()">Save</button>
+              </div>
+            </div>
+          </form>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
+          <script type="text/javascript">
+          function myFunction(){
+          console.log("hello")
+          }
+          $(document).ready(function(e) {
+          $('.selectpicker').selectpicker();
+          });
+          </script>
+        </body>

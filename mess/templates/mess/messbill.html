@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>invest</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css"> 
+    body {
+           background-image: url("http://i.huffpost.com/gen/1492467/thumbs/o-BABY-FOOD-MESS-facebook.jpg");
+          background-repeat: no-repeat;
+    }
+    </style>
+  </head>
+  <body >
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/home/">We-share</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li data-toggle="modal" data-target="#myModal" ><a href="#">Invest</a></li>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li ><a href="/invoice/">Mess bill</a></li>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav">
+      <li ><a href="/trance/">Transactions</a></li>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+  </ul>
+</div>
+</nav>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+<div class="modal-dialog">
+  
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Invest</h4>
+    </div>
+    <div class="modal-body">
+      
+      <form method="POST" class="form-horizontal" action="/invest/" >
+        {% csrf_token %}
+        <div class="form-group">
+          <label  class="col-sm-2 control-label">Amount:</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <div class="input-group-addon">₹</div>
+              <input name="amount" type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+              <div class="input-group-addon">.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label  class="col-sm-2 control-label">Description:</label>
+          <div class="col-sm-10">
+            <textarea name="description" class="form-control" rows="1" id="comment"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-default" >Invest</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </form>
+  </div>
+  
+</div>
+</div>
+</div>
+<div style="margin:5% 40% 0% 33%;float:left; width:500px; box-shadow:0 0 3px #aaa; height:auto;color:#666;">
+<div style="width:100%;background:black; padding:10px; float:left; color:#fff; font-size:30px; text-align:center;">
+Mess expenses
+</div>
+
+
+<div style="width:100%; padding:0px; float:left;background:#efefef;">
+
+<div style="width:100%;float:left;background:#fff;">
+  <span style="float:left; text-align:left;padding:10px;width:50%;color:#888;font-weight:600;">
+    Decription
+  </span>
+  <span style="font-weight:600;float:left;padding:10px ;width:40%;color:#888;text-align:right;">
+    Amount
+  </span>
+</div>
+{% for i in mess_bill %}
+  <div style="width:100%;float:left;">
+    <span style="float:left; text-align:left;padding:10px;width:50%;color:#888;">
+      Electricity Bill
+    </span>
+    <span style="font-weight:normal;float:left;padding:10px ;width:40%;color:#888;text-align:right;">
+      {{i.electricity_bill}}₹
+    </span>
+  </div>
+  <div style="width:100%;float:left;">
+    <span style="float:left; text-align:left;padding:10px;width:50%;color:#888;">
+      Water Bill
+    </span>
+    <span style="font-weight:normal;float:left;padding:10px ;width:40%;color:#888;text-align:right;">
+      {{i.water_bill}}₹
+    </span>
+  </div>
+  <div style="width:100%;float:left;">
+    <span style="float:left; text-align:left;padding:10px;width:50%;color:#888;">
+      Rent
+    </span>
+    <span style="font-weight:normal;float:left;padding:10px ;width:40%;color:#888;text-align:right;">
+      {{i.rent}}₹
+    </span>
+  </div>
+  <div style="width:100%;float:left;">
+    <span style="float:left; text-align:left;padding:10px;width:50%;color:#888;">
+      Other expense
+    </span>
+    <span style="font-weight:normal;float:left;padding:10px ;width:40%;color:#888;text-align:right;">
+      {{i.other_expenses}}₹
+    </span>
+  </div>
+ {% endfor %}
+  
+  <div style="width:100%;float:left; background:#fff;">
+    
+    <span style="font-weight:600;float:right;padding:10px 0px;width:40%;color:#666;text-align:center;">
+      Total : {{grand_total}}₹
+    </span>
+  </div>
+</div>
+</body>
+</html>

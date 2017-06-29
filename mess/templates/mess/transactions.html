@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>We-Share</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shadows+Into+Light+Two" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baumans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baumans|Iceland" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='/static/css/transactions.css'/>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <b><a class="navbar-brand logo-title" href="/home/">We-share</a></b>
+        </div>
+        <ul class="nav navbar-nav">
+          {% for i in group_name %}
+            <li ><p class="subtitle-style">{{i.group_name}}- Transactions</p></li>
+          {% endfor %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a class="subtitle-style" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <p class="subfonting">Sharing money is what gave it its value.</p>
+      <b><p class="subsubfont">- Elvis Presley</p></b>
+    </div>
+    <div class="transbox">
+      <p class="transtext">Transactions Statement </p>
+      <div class="w3-container">
+        <button class="button-design button-hower" type="button" data-toggle="modal" data-target="#newModal">Add Bill</button>
+        <div>
+          <p class="balance-style">Balance: {{balance_amount}}₹ </p>
+        </div>
+        <div class="tab">
+          <button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen">All</button>
+          <button class="tablinks" onclick="openCity(event, 'Invest')">Invest</button>
+          <button class="tablinks" onclick="openCity(event, 'Spent')">Spent</button>
+        </div>
+        <div id="All" class="tabcontent">
+            {% for i in group_details %}
+            {% if i.lender %}
+              <p class="subtab-font">{{i.lender.user.username}} Invested {{i.amount}}₹ for {{i.description}}.</p>
+            {% else %}
+              <p class="subtab-font">{{i.receiver.user.username}} spent {{i.amount}}₹ for {{i.description}}.</p>
+             {% endif %} 
+            {% endfor %}
+
+        </div>
+        <div id="Invest" class="tabcontent">
+        {% for i in group_details %}
+            {% if i.lender %}
+          <p class="subtab-font">{{i.lender.user.username}} Invested {{i.amount}}₹ for {{i.description}}.</p>
+          {% endif %} 
+           {% endfor %} 
+        </div>
+        <div id="Spent" class="tabcontent">
+       {% for i in group_details %}
+        {% if i.receiver %}
+         <p class="subtab-font">{{i.receiver.user.username}} Spent {{i.amount}}₹ for {{i.description}}.</p>
+        {% endif %} 
+        {% endfor %}       
+        </div>
+      </div>
+    </div>
+    <div class="groupnames">
+      <p class="memberstext ">Group members</p>
+      <ul class="list-group listingstyle">
+        {% for i in group_members %}
+          <a href="#" class="list-group-item box">{{i.user.username}}</a>
+        {% endfor %}
+      </ul>
+    </div>
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title modal-titlestyle">We Share</h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                
+  
+                <form role="form" method="POST" action={% url 'add_bill' id  %}>
+                
+                {% csrf_token %}
+
+                  <div class="form-group">
+                    <label for="Description">Description</label>
+                      <input type="text" class="form-control"
+                      id="description" name="description" placeholder="Enter description"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Amount</label>
+                      <input type="number" class="form-control"
+                          id="amount" name="amount" placeholder="Enter amount"/>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="radio" name="type" value="invest"> Invest
+                      <input type="radio" name="type" value="spent"> Spent
+                    </label>
+                  </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="submit" class="submit-style">Submit</button>
+            </div>
+          </form>
+            
+
+        </div>
+    </div>
+</div>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
+              <script>
+              function openCity(evt, cityName) {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByClassName("tabcontent");
+              for (i = 0; i < tabcontent.length; i++) {
+              tabcontent[i].style.display = "none";
+              }
+              tablinks = document.getElementsByClassName("tablinks");
+              for (i = 0; i < tablinks.length; i++) {
+              tablinks[i].className = tablinks[i].className.replace(" active", "");
+              }
+              document.getElementById(cityName).style.display = "block";
+              evt.currentTarget.className += " active";
+              }
+              // Get the element with id="defaultOpen" and click on it
+              document.getElementById("defaultOpen").click();
+              </script>
+            </body>
+          </html>
