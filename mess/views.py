@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.db.models import Q
 from .models import Member,Bill, Transaction,WSGroup
 from django.urls import reverse
+import json
+from django.db import connection
 
 
 def Signup(request):
@@ -34,7 +36,8 @@ def Signup(request):
             member=Member.objects.create(user=user)
             request.session['signerror']="false"
             return redirect('/home/')
-    return render(request,'mess/login.html')
+    return render(request,'mess/login.html',{'signup': True})
+
 
 def Login(request):
     request.session['logerror']="false"
@@ -42,11 +45,9 @@ def Login(request):
     if request.method=='POST':
         username=request.POST.get('username')
         password=request.POST.get('password')
-        print username
         user=authenticate(username=username,password=password)
         if user is not None:
             login(request, user)
-            request.session['username']=username
             request.session['logerror']="false"
             return redirect('/home/')
         else:
@@ -212,6 +213,17 @@ def group_creation(request):
         return redirect('/home/')
 
     return redirect('/home/')
+
+@login_required(login_url='/')
+def search_member(request):
+    name=request.POST["search"]
+    member_list = []
+    members=Member.objects.select_related('user').filter(user__username__contains=name).exclude(user__username__in=["admin", request.user.username])
+    for member in members:
+        member_list.append({'text':member.user.username,'value':member.user.username})
+
+    return HttpResponse(json.dumps(member_list),content_type='application/json')  
+
 
 @login_required(login_url='/')
 def mtog_transaction(request):

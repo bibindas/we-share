@@ -12,5 +12,6 @@ urlpatterns = [
 				url(r'^member/home/$',views.member_report,name='member_report'),
 				url(r'^groupcreation/',views.group_creation,name='group_creation'),
 				url(r'^settings/$',views.settings,name='settings'),
-				url(r'^grpreport/(?P<id>\d+)/$',views.group_report, name='group_report'), 
+				url(r'^grpreport/(?P<id>\d+)/$',views.group_report, name='group_report'),
+				url(r'^search/$',views.search_member,name='search_member'), 
 			]

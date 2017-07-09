@@ -4,6 +4,8 @@
     <title>We-Share</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
@@ -14,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Shadows+Into+Light+Two" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
     <link rel='stylesheet' href='/static/css/home.css' type="text/css">
+    <link rel='stylesheet' href="{% static "css/selectize.css" %}">
   </head>
   <body>
     <nav class="navbar navbar-inverse">
@@ -44,7 +47,7 @@
   </ul>
   <ul class="nav navbar-nav navbar-right ">
     <li >
-    <a class="subtitle-style" href="#"><span class="glyphicon glyphicon-cog"></span>{{user}}</a></li>
+      <a class="subtitle-style" href="#"><span class="glyphicon glyphicon-cog"></span>{{user}}</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a class="subtitle-style" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -62,59 +65,82 @@
     <div class="groupname-box box-hovering"><a href={% url 'group_report' i.id  %}>
       <h2 class="boxname-style">{{i.group_name}}</h2>
       <h4 class="boxsubname">*{{i.description}}</h4>
-      </a>
-    </div>
+    </a>
+  </div>
   
-  {% endfor %}
+{% endfor %}
 </div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content modal-design">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label  ="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title title-style" id="myModalLabel">We Share</h4>
-      </div>
-      <div class="modal-body">
+<div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label  ="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title title-style" id="myModalLabel">We Share</h4>
+    </div>
+    <div class="modal-body">
+    <form  action="/groupcreation/" method="POST" >
+    {% csrf_token %}
+                        <div class="form-group">
+                    <label for="Description">Name</label>
+                      <input type="text" class="form-control"
+                      id="grname" name="grname" placeholder="Enter name"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Members</label>
+                                <select  id="addmem" name="members" multiple>
+          </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="amount">Description:</label><br>
+            <textarea class="textarea-style" rows="0" placeholder="Enter your description here..." name="description">
+            </textarea>
+                  </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default subname-style" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary subname-style">Save</button>
+            </div>
+        </form>
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
+        <script src="{% static 'js/selectize.js' %}"></script>
+        <script type="text/javascript">
+
         
-        <form class="form-horizontal" action="/groupcreation/" method="POST" >
-          {% csrf_token %}
-          <div class="form-group width-form">
-            <label for="inputEmail3" class="col-sm-2 control-label subname-style">Name:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="grname" id="inputEmail3" placeholder="Group Name">
-            </div>
-          </div>
-          <p class="subname-style">Members:</p>
-          <div class="selextbox-style">
-            <select class="style-drop selectpicker" name="members" multiple="multiple">
-              {% for i in all_users %}
-                <option value="{{i.username}}" name="members">{{i.username}}</option>
-              {% endfor %}
-            </select>
-            <div>
-              </br>
-              <p class="subname-style subame-pad">Description:</p>
-              <textarea class="textarea-style" rows="0" placeholder="Enter your description here..." name="description">
-              </textarea>
-            </div>
-            <div>
-              </br>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default subname-style" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary subname-style" onclick="myFunction()">Save</button>
-              </div>
-            </div>
-          </form>
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
-          <script type="text/javascript">
-          function myFunction(){
-          console.log("hello")
-          }
-          $(document).ready(function(e) {
-          $('.selectpicker').selectpicker();
-          });
-          </script>
-        </body>
+
+        $('#addmem').selectize({
+load: function (query, callback) {
+     this.clearOptions()
+
+
+       if (!query.length) return callback();
+       var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+       console.log(query,csrftoken)
+       $.ajax({
+           url: '/search/',
+            type: 'POST',
+            data:{search:query, csrfmiddlewaretoken: csrftoken},
+            
+           error: function () {
+               callback();
+           },
+           success: function (res) {
+               console.log(res)
+               callback(res.slice(0, 10));
+             
+           }
+       });
+   }
+
+         });
+        </script>
+      </body>

@@ -93,13 +93,13 @@
                                     <div class="form-group">
                                         <div class="row">
                                         
-                                            <div class="col-sm-6 col-sm-offset-3">
                                             <br>
                                             {% if request.session.signerror == "true"%}
                                             <div class="form-group alert alert-warning">
-                                             <strong>Warning!</strong><br> {{ request.session.serrormessage }} !!
+                                             <strong>Warning!</strong><br>{{ request.session.serrormessage }}!!
                                             </div>  
                                             {% endif %}
+                                            <div class="col-sm-6 col-sm-offset-3">
                                                 <button type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">Signup
                                                 </button>
                                                 <div id="edi">
@@ -148,14 +148,22 @@ $(function() {
         $(this).addClass('active');
     }
     else {
-        $("#register-form").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-
-     }
-        
-});
+        if(signup==True){    
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $('#login-form-link').addClass('active');
+            $('#register-form-link').removeClass('active');
+        }
+        else{
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        }
+    }
+ }
+);
 
 </script>
 </html>
