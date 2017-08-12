@@ -245,7 +245,8 @@ def mtog_transaction(request):
 def settings(request):
     member=Member.objects.get(user=request.user)
     if request.method=='POST':
-        profile_pic=request.FILES.get('filename')
+        print request.FILE
+        profile_pic=request.FILE.get('filename')
         email=request.POST.get('email')
         phonenumber=request.POST.get('phonenumber')
         if not profile_pic or not email or not phonenumber:
