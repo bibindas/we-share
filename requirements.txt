@@ -2,7 +2,7 @@ Django==1.10.6
 Flask==0.12
 Jinja2==2.9.5
 MarkupSafe==0.23
-MySQL-python==1.2.3
+#MySQL-python==1.2.3
 #PAM==0.4.2
 Pillow==2.3.0
 #PyBluez==0.18
