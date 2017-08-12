@@ -22,17 +22,21 @@ def Signup(request):
         email=request.POST.get('email')
         password=request.POST.get('password')
         confirmpassword=request.POST.get('confirmpassword')
-        if not username or not email or not password or not confirmpassword:    
+        if not username or not email or not password or not confirmpassword:
+            print "1"    
             request.session['signerror']="true"
             request.session['serrormessage']="All fields required"
         elif User.objects.filter(username=username).exists():
+            print "2"
             request.session['signerror']="true"
             request.session['serrormessage']="Username already exist"
         elif not password == confirmpassword:
+            print "3"
             request.session['signerror']="true"
             request.session['serrormessage']="Password do not match"
         else:
             user=User.objects.create_user(username=username,email=email,password=password)
+            print user
             member=Member.objects.create(user=user)
             request.session['signerror']="false"
             return redirect('/home/')
