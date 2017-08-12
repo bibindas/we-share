@@ -37,7 +37,9 @@
 	
 }
 
-
+.selectize-control {
+   min-width: 300px;
+}
 
 
 

@@ -1,1 +1,1 @@
-web: gunicorn project.wsgi
+web: gunicorn bangalore_mess.wsgi
