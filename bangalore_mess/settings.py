@@ -126,3 +126,4 @@ INTERNAL_IPS = ('127.0.0.1', '192.168.0.32')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "mess/static"),
 ]
+print os.path.join(BASE_DIR, "mess/static")
