@@ -36,8 +36,6 @@ def Signup(request):
             request.session['serrormessage']="Password do not match"
         else:
             user=User.objects.create_user(username=username,email=email,password=password)
-            print user
-            member=Member.objects.create(user=user)
             request.session['signerror']="false"
             return redirect('/home/')
     return render(request,'mess/login.html',{'signup': True})

@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.db import models
+
 
 
 class WSGroup(models.Model):
@@ -30,3 +33,9 @@ class Transaction(models.Model):
 	group=models.ForeignKey(WSGroup,blank=True,null=True)
 	settled = models.BooleanField(default=False)
 	
+@receiver(post_save, sender=User)
+
+def member_create(sender,instance,created,**kwargs):
+
+	if created:
+		Member.objects.create(user=instance) 
